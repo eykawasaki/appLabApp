@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <!-- Bootstrap -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">	
+		<link rel="stylesheet" href="css/jquery-ui.css">	
+		<link rel="stylesheet" href="css/jquery-ui.structure.css">	
+		<link rel="stylesheet" href="css/jquery-ui.theme.css">	
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Treinamento PhoneGap</title>
+    </head>
+    <body>
+	<div id="divWait" style="margin-top:40%;">
+		<img src="img/wait.jpg" alt="Aguarde.." title="Aguarde.." />
+		<h1>Aguarde...</h1>
+	</div>
+	<div id="divMenu" style="display:none;">
+		<h1 style="">TREINAMENTO</h1>
+		<h1>PhoneGap</h1>
+		
+		<ul class="list-group" style="margin-top:45px;">
+			<li class="list-group-item" id="liDialogs"><span class="badge">></span>Dialogs</li>
+			<li class="list-group-item" id="liNotification"><span class="badge">></span>Notification</li>
+			<li class="list-group-item" id="liCamera"><span class="badge">></span>Camera</li>
+			<li class="list-group-item" id="liBussola"><span class="badge">></span>Compass</li>
+			<li class="list-group-item" id="liAccelerometer"><span class="badge">></span>Accelerometer</li>
+			<li class="list-group-item" id="liGeolocation"><span class="badge">></span>Geolocation</li>
+			<li class="list-group-item" style="display:none;"><span class="badge">></span></li>
+			<li class="list-group-item" style="display:none;"><span class="badge">></span></li>
+		</ul>
+	</div>
+	<div id="divConteudo" style="display:none;">
+		<button class="btn btn-primary" style="margin:0; width:100%;" id="btnVoltar">Voltar</button>
+		<div class="divInternas" id="divConteudoDialogs" style="display:none">
+			<button class="btn btn-primary" id="btnAlert">Alert</button>
+			<button class="btn btn-primary" id="btnConfirm">Confirm</button>
+			<div id="dialog" title="Teste Dialog">
+			  <p>Teste de Dialog</p>
+			</div>
+		</div>
+		<div class="divInternas" id="divConteudoNotification" style="display:none">
+			<h1>navigator.notification</h1>
+		
+			<div>
+				<h1>JAVASCRIPT</h1>
+				<button class="btn btn-primary" id="btnAlertJS">Alert</button>
+				<button class="btn btn-primary" id="btnConfirmJS">Confirm</button>
+			</div>
+		
+			<div>
+				<h1>NATIVO</h1>
+				<button class="btn btn-primary" id="btnAlertNativo">Alert</button>
+				<button class="btn btn-primary" id="btnConfirmNativo">Confirm</button>
+				<button class="btn btn-primary" id="btnBeepNativo">Beep</button>
+				<button class="btn btn-primary" id="btnVibrateNativo">Vibrate</button>
+			</div>
+		</div>		
+		
+		<div class="divInternas" id="divConteudoCamera" style="display:none">
+			<h1>navigator.camera</h1>
+			<div>
+				<label>Origem: </label>
+				<select id="ddlOrigem">
+					<option value="1">Camera</option>
+					<option value="2">Gallery</option>
+				</select>
+			</div>
+			<div>
+				<label>Qualidade: </label>
+				<select id="ddlQualidade">
+					<option value="25">25</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select>
+			</div>
+			<div>
+				<label>Encoding: </label>
+				<select id="ddlEncoding">
+					<option value="1">*.JPG</option>
+					<option value="2">*.PNG</option>
+				</select>			
+			</div>
+			<div><button class="btn btn-primary" id="btnGetPicture">Get Picture</button></div>
+			<div>
+				<img id="imgPicture" />
+			</div>
+		</div>
+		
+		<div class="divInternas" id="divConteudoBussola" style="display:none">
+			<h1>navigator.compass</h1>
+			<div>
+				<img id="imgCompass" />
+			</div>			
+		</div>		
+		
+		<div class="divInternas" id="divConteudoAcelerometro" style="display:none">
+			<h1>navigator.accelerometer </h1>
+			<label>X: </label><label id="lblX"></label><br />
+			<label>Y: </label><label id="lblY"></label><br />
+			<label>Z: </label><label id="lblZ"></label><br />
+			<label>TimeStamp: </label><label id="lblTimeStamp"></label>
+		</div>			
+
+		<div class="divInternas" id="divConteudoLocalizacao" style="display:none">
+			<h1>navigator.geolocation</h1>
+			  <label>Latitude: </label><label id="lblLatitude"></label><br />
+			  <label>Longitude: </label><label id="lblLongitude"></label><br />
+			  <label>Altitude: </label><label id="lblAltitude"></label><br />
+			  <label>Accuracy: </label><label id="lblAccuracy"></label><br />
+			  <label>Altitude Accuracy: </label><label id="lblAltitudeAccuracy"></label><br />
+			  <label>Heading: </label><label id="lblHeading"></label><br />
+			  <label>Speed: </label><label id="lblSpeed"></label><br />
+			  <label>Timestamp: </label><label id="lblTimestamp"></label>
+		</div>		
+	</div>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/jquery-1.1.13.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript">
+	function alertDismissed() {
+		alert('Fechou alert');
+	}
+	
+	function onConfirm(buttonIndex) {
+		alert('You selected button ' + buttonIndex);
+	}	
+
+	function onSuccessAccelerometer(acceleration) {
+		$("#lblX").text(acceleration.x);
+		$("#lblY").text(acceleration.y);
+		$("#lblZ").text(acceleration.z);
+		
+/*		var dataAtual = new Date(acceleration.timestamp * 1000);
+  
+		var dd = dataAtual.getDate();
+		var mm = dataAtual.getMonth()+1; 
+		var yyyy = dataAtual.getFullYear();    
+		var hoje = dd + "/" + mm + "/" + yyyy;    		*/		
+		$("#lblTimeStamp").text(acceleration.timestamp);
+	};
+
+	function onErrorAccelerometer() {
+		alert('onError!');
+	};
+
+	function onSuccessCamera(imageData) {
+		var image = document.getElementById("imgPicture");
+		image.src = "data:image/jpeg;base64," + imageData;
+	}
+
+	function onFailCamera(message) {
+		alert('Failed because: ' + message);
+	}	
+	
+    function onSuccessCompass(heading) {
+		var image = document.getElementById("imgCompass");
+		image.src = "http://www.teiatecnologia.com.br/via_web/giraPonteiro_bussola.php?graus=" + heading.magneticHeading;	
+    }
+
+    function onErrorCompass(compassError) {
+        alert('Compass Error: ' + compassError.code);
+    }	
+	
+	var onSuccessGeolocation = function(position) {
+		$("#lblLatitude").text(position.coords.latitude);
+		$("#lblLongitude").text(position.coords.longitude);
+		$("#lblAltitude").text(position.coords.altitude);
+		$("#lblAccuracy").text(position.coords.accuracy);
+		$("#lblAltitudeAccuracy").text(position.coords.altitudeAccuracy);
+		$("#lblHeading").text(position.coords.heading);
+		$("#lblSpeed").text(position.coords.speed);
+		$("#lblTimestamp").text(position.timestamp);	
+	}
+	
+	function onErrorGeolocation(error) {
+		alert('code: ' + error.code + '\nmessage: ' + error.message + '\n');
+		
+		//PositionError.PERMISSION_DENIED when gps is not enabled, and PositionError.POSITION_UNAVAILABLE or PositionError.TIMEOUT	
+	}
+	
+	$(document).ready(function() {
+		$("#liDialogs").click(function(){
+			$("#divMenu").hide();
+			$("#divConteudo").show();
+			$("#divConteudoDialogs").show();
+			$("#dialog").dialog();
+		});
+		
+		$("#btnAlert, #btnAlertJS").click(function(){
+			alert('qwert');
+		});
+		
+		$("#btnConfirm, #btnConfirmJS").click(function(){
+			if (confirm('Sim ou Não'))
+			{
+				alert('Sim');
+			}
+			else
+			{
+				alert('Não');
+			}
+		});
+		
+		$("#liNotification").click(function(){
+			$("#divMenu").hide();
+			$("#divConteudo").show();
+			$("#divConteudoNotification").show();
+		});
+		
+		$("#btnAlertNativo").click(function(){
+			navigator.notification.alert(
+				'You are the winner!',  
+				alertDismissed,         
+				'Game Over',            
+				'Done'                  
+			);		
+		});
+		
+		$("#btnConfirmNativo").click(function(){
+			navigator.notification.confirm(
+				'You are the winner!', 
+				 onConfirm,            
+				'Game Over',           
+				['Restart','Exit']     
+			);		
+		});
+		
+		$("#btnBeepNativo").click(function(){
+			navigator.notification.beep(3);
+		});
+		
+		$("#btnVibrateNativo").click(function(){
+			navigator.notification.vibrate(1000);
+		});
+		
+		$("#liCamera").click(function(){
+			$("#divMenu").hide();
+			$("#divConteudo").show();
+			$("#divConteudoCamera").show();
+		});		
+		
+		$("#btnGetPicture").click(function(){
+			var origem = $("#ddlOrigem").val();
+			var qualidade = $("#ddlQualidade").val();
+			var formato = $("#ddlEncoding").val();
+			var source = null;
+			var encoding = null;
+			
+			if (origem = "1")
+			{
+				source = Camera.PictureSourceType.CAMERA;
+			}
+			else if (origem = "2")
+			{
+				source = Camera.PictureSourceType.PHOTOLIBRARY;
+			}
+			
+			if (formato = "1")
+			{
+				encoding = Camera.EncodingType.JPEG;
+			}
+			else if (formato = "2")
+			{
+				encoding = Camera.EncodingType.PNG;
+			}			
+		
+			var cameraOptions = {
+				quality: qualidade,
+				destinationType: Camera.DestinationType.DATA_URL,
+				sourceType : source,
+				encodingType: encoding
+			};
+			
+			navigator.camera.getPicture(onSuccessCamera, onFailCamera, cameraOptions);
+		});
+		
+		$("#liBussola").click(function(){
+			$("#divMenu").hide();
+			$("#divConteudo").show();
+			$("#divConteudoBussola").show();		
+			CompassWatchID = navigator.compass.watchHeading(onSuccessCompass, onErrorCompass, { timeout: 2000 });
+		});			
+			
+		$("#liAccelerometer").click(function(){
+			$("#divMenu").hide();
+			$("#divConteudo").show();
+			$("#divConteudoAcelerometro").show();	
+			AccelerometerWatchID = navigator.accelerometer.watchAcceleration(onSuccessAccelerometer, onErrorAccelerometer, { timeout: 2000 });
+		});
+		
+		$("#liGeolocation").click(function(){
+			$("#divMenu").hide();
+			$("#divConteudo").show();
+			$("#divConteudoLocalizacao").show();
+			GeoLocationWatchID = navigator.geolocation.watchPosition(onSuccessGeolocation, onErrorGeolocation, { timeout: 2000 });			
+		});		
+		
+		$("#btnVoltar").click(function(){
+			if ($("#dialog").length == 0) {		
+				if ($("#dialog").dialog("isOpen") === true) {
+					$("#dialog").dialog("close");
+				}
+			}
+			
+			if (CompassWatchID) {
+				navigator.compass.clearWatch(CompassWatchID);
+				CompassWatchID = null;
+			}
+			
+			if (AccelerometerWatchID) {
+				navigator.accelerometer.clearWatch(AccelerometerWatchID);
+				AccelerometerWatchID = null;
+			}
+
+			if (GeoLocationWatchID) {
+				navigator.geolocation.clearWatch(GeoLocationWatchID);
+				GeoLocationWatchID = null;
+			}
+			
+			$("#divConteudo").hide();		
+			$(".divInternas").hide();
+			$("#divMenu").show();			
+		});
+	});
+	</script>
+    </body>
+</html>
